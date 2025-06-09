@@ -1,8 +1,11 @@
-//
-//  InventoryModel.swift
-//  ALP_SE_WM
-//
-//  Created by Michael Laiman on 09/06/25.
-//
-
 import Foundation
+import FirebaseFirestore
+
+struct InventoryItem: Identifiable, Codable {
+    @DocumentID var id: String?
+    var name: String
+    var quantity: Int
+    var entryDate: Date
+    var exitDate: Date?
+    var category: String
+}

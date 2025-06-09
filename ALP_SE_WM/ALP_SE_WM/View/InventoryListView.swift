@@ -1,15 +1,42 @@
-//
-//  InventoryListView.swift
-//  ALP_SE_WM
-//
-//  Created by Michael Laiman on 09/06/25.
-//
-
 import SwiftUI
 
 struct InventoryListView: View {
+    @StateObject private var viewModel = InventoryViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            List {
+                ForEach(viewModel.items) { item in
+                    VStack(alignment: .leading) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(item.name).bold()
+                                Text("Quantity: \(item.quantity)")
+                                Text("Category: \(item.category)")
+                                Text("Entered: \(item.entryDate.formatted(date: .abbreviated, time: .omitted))")
+                            }
+                            Spacer()
+                            NavigationLink(destination: EditInventoryItemView(viewModel: viewModel, item: item)) {
+                                Image(systemName: "pencil")
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
+                }
+                .onDelete { indexSet in
+                    indexSet.forEach { viewModel.deleteItem(viewModel.items[$0]) }
+                }
+            }
+            .navigationTitle("Inventory")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink("Add", destination: AddInventoryItemView(viewModel: viewModel))
+                }
+            }
+            .onAppear {
+                viewModel.fetchItems()
+            }
+        }
     }
 }
 
