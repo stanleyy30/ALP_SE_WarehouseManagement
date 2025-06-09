@@ -1,16 +1,17 @@
+//
+//  ALP_SE_WMApp.swift
+//  ALP_SE_WM
+//
+//  Created by Michael Laiman on 09/06/25.
+//
+
 import SwiftUI
-import Firebase
 
 @main
 struct ALP_SE_WMApp: App {
-    
-    init() {
-        FirebaseApp.configure()
-    }
-
     var body: some Scene {
         WindowGroup {
-            InventoryListView()
+            ContentView()
         }
     }
 }
